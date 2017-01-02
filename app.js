@@ -24,7 +24,8 @@ net.createServer(function(socket) {
                 socket.write(data);
             }
         } else {
-            broadcast(data.imei, data.command);
+            var device = JSON.parse(data);
+            broadcast(device.imei, device.command);
         }
     });
 
