@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var net = require('net');
-
+require('./lib/server');
 var clients = [];
 net.createServer(function(socket) {
 
