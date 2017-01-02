@@ -42,6 +42,6 @@ net.createServer(function(socket) {
 
     socketWrite('Welcome to KR-IoT Server');
 
-}).listen(5000, function() {
-    console.log("Server running on port 5000");
+}).listen(5555, function() {
+    console.log("Server running on port 5555");
 });
