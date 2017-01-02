@@ -30,9 +30,7 @@
 
     <script>
         $(document).ready(function() {
-            var socket = io.connect(window.location.hostname, {
-                port: 5555
-            });
+            var socket = io('/');
             socket.on('data', function(dataObj) {
                 var data = dataObj.data;
                 $('#txt').append(data);
@@ -42,7 +40,10 @@
             $('#inp').on('keydown', function(e) {
                 if (e.keyCode === 13) {
                     socket.emit('data', {
-                        data: $('#inp').val()
+                        data: JSON.stringify({
+                            imei: ('#device-imei').val(),
+                            command: ('#inp').val()
+                        })
                     });
                     $('#inp').val('');
                 }
@@ -52,7 +53,8 @@
 </head>
 
 <body bgcolor="black">
-    <textarea id="txt" readonly rows=40 style="height: 80%; width: 100%"></textarea><br/> => <input type="text" id="inp" style="width: 50%" ;/>
+    <input type="text" style="height: 20px; width: 100%" id="device-imei" placeholder="Device IMEI">
+    <textarea id="txt" readonly rows=40 style="height: 50%; width: 100%"></textarea><br/> => <input type="text" id="inp" style="width: 100%" ;/>
 </body>
 
 </html>
