@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function() {
             var socket = io.connect(window.location.hostname, {
-                port: 1337
+                port: 5555
             });
             socket.on('data', function(dataObj) {
                 var data = dataObj.data;
