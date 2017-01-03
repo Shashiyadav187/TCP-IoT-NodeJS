@@ -19,7 +19,7 @@ net.createServer(function(socket) {
     socket.on('data', function(data) {
         if (socket.remoteAddress !== '::ffff:127.0.0.1') {
             if (typeof socket.imei === 'undefined') {
-                if (setIMEI(data)) {
+                if (setIMEI(data.toString())) {
                     socket.write('Device Connected');
                 } else {
                     socket.write('Bad Command');
