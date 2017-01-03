@@ -23,8 +23,9 @@ net.createServer(function(socket) {
                 }
             } else {
                 clients.forEach(function(client) {
-                    if (client.remoteAddress === '::ffff:127.0.0.1') {
-                        client.write(message);
+		    console.log(client.remoteAddress);
+                    if (client.remoteAddress == '::ffff:127.0.0.1') {
+                        client.write(data);
                     }
                 });
             }
