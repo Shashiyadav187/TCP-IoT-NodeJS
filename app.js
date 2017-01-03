@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var net = require('net');
-var helpers = require('./lib/helpers');
 require('./lib/server');
 var clients = [];
 net.createServer(function(socket) {
@@ -19,7 +18,7 @@ net.createServer(function(socket) {
     socket.on('data', function(data) {
         if (socket.remoteAddress !== '::ffff:127.0.0.1') {
             if (typeof socket.imei === 'undefined') {
-                if (setIMEI(data.toString())) {
+                if (setIMEI(data)) {
                     socket.write('Device Connected');
                 } else {
                     socket.write('Bad Command');
@@ -42,7 +41,7 @@ net.createServer(function(socket) {
     });
 
     var setIMEI = function(imei) {
-        if (helpers.isIMEI(imei)) {
+        if (imei.toString().trim() !== '') {
             socket.imei = imei;
             clients.push(socket);
             return true;
