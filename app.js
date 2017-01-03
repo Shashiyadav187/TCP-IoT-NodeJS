@@ -4,12 +4,13 @@ require('./lib/server');
 var clients = [];
 net.createServer(function(socket) {
 
-    var self = this;
-    clients.push(socket);
-
     var broadcast = function(imei, message) {
-        var sock = _.filter(clients, function(client) { return client.imei === imei; });
-        sock.write(message);
+        clients.forEach(function(client) {
+	   var client_imei = client.imei.toString();
+	 if (client_imei.trim() == imei){
+	      client.write(message);
+	    }
+        });
     };
 
     var socketWrite = function(message) {
@@ -19,13 +20,13 @@ net.createServer(function(socket) {
     socket.on('data', function(data) {
         if (socket.remoteAddress !== '::ffff:127.0.0.1') {
             if (typeof socket.imei === 'undefined') {
-                return setIMEI(data);
+                setIMEI(data);
             } else {
                 socket.write(data);
             }
         } else {
-            var device = JSON.parse(data);
-            broadcast(device.imei, device.command);
+            var device = JSON.parse(data.toString());
+	    broadcast(device.imei, device.command);
         }
     });
 
@@ -38,7 +39,7 @@ net.createServer(function(socket) {
 
     var setIMEI = function(imei) {
         socket.imei = imei;
-        socket.write(socket.imei);
+        clients.push(socket);
     };
 
     socketWrite('Welcome to KR-IoT Server');

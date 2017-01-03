@@ -39,13 +39,7 @@
 
             $('#inp').on('keydown', function(e) {
                 if (e.keyCode === 13) {
-                    socket.emit('data', {
-                        data: JSON.stringify({
-                            imei: ('#device-imei').val(),
-                            command: ('#inp').val()
-                        })
-                    });
-                    $('#inp').val('');
+                    socket.emit('data', JSON.stringify({'imei': $('#device-imei').val(),'command': $('#inp').val()}));
                 }
             });
         });
