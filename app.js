@@ -5,8 +5,6 @@ var clients = [];
 net.createServer(function(socket) {
 
     var broadcast = function(imei, message) {
-        var sock = _.filter(clients, function(client) { return client.imei.toString().trim() === imei; });
-        sock.write(message);
         clients.forEach(function(client) {
             var client_imei = client.imei.toString();
             if (client_imei.trim() == imei) {
@@ -24,8 +22,11 @@ net.createServer(function(socket) {
                     socket.write('Bad Command');
                 }
             } else {
-                var sock = _.filter(clients, function(client) { return socket.remoteAddress === '::ffff:127.0.0.1' });
-                sock.write(data);
+                clients.forEach(function(client) {
+                    if (client.remoteAddress === '::ffff:127.0.0.1') {
+                        client.write(message);
+                    }
+                });
             }
         } else {
             var device = JSON.parse(data.toString());
