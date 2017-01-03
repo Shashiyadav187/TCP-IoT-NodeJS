@@ -23,18 +23,18 @@ net.createServer(function(socket) {
                 }
             } else {
                 clients.forEach(function(client) {
-                    if (client.remoteAddress === '::ffff:127.0.0.1') {
+                    //if (client.remoteAddress === '::ffff:127.0.0.1') {
                         client.write(data);
-                    }
+                    //}
                 });
             }
         } else {
-            if (typeof socket.remoteAddress === 'undefined') {
+            if (typeof socket.imei === 'undefined') {
+		socket.imei = socket.remoteAddress;
                 clients.push(socket);
-            } else {
+            } 
                 var device = JSON.parse(data.toString());
                 broadcast(device.imei, device.command);
-            }
         }
     });
 
