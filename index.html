@@ -41,8 +41,8 @@
                 if (e.keyCode === 13) {
                     socket.emit('data', {
                         data: JSON.stringify({
-                            imei: ('#device-imei').val(),
-                            command: ('#inp').val()
+                            imei: $('#device-imei').val(),
+                            command: $('#inp').val()
                         })
                     });
                     $('#inp').val('');
